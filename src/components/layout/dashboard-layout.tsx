@@ -98,37 +98,37 @@ export function DashboardLayout({ children, title, subtitle, actions }: Dashboar
             href: '/dashboard',
             icon: <BarChartIcon size={20} />,
             label: 'Dashboard',
-            roles: ['ADMIN', 'GERENTE', 'FUNCIONARIO', 'MECANICO'],
+            roles: ['ADMIN', 'GERENTE', 'FUNCIONARIO', 'MECANICO', 'ATENDENTE'],
         },
         {
             href: '/agendamentos',
             icon: <CalendarIcon size={20} />,
             label: 'Agendamentos',
-            roles: ['ADMIN', 'GERENTE', 'FUNCIONARIO', 'MECANICO'],
+            roles: ['ADMIN', 'GERENTE', 'FUNCIONARIO', 'MECANICO', 'ATENDENTE'],
         },
         {
             href: '/ordens',
             icon: <ClipboardListIcon size={20} />,
             label: 'Ordens de Serviço',
-            roles: ['ADMIN', 'GERENTE', 'FUNCIONARIO', 'MECANICO'],
+            roles: ['ADMIN', 'GERENTE', 'FUNCIONARIO', 'MECANICO', 'ATENDENTE'],
         },
         {
             href: '/clientes',
             icon: <UsersIcon size={20} />,
             label: 'Clientes',
-            roles: ['ADMIN', 'GERENTE', 'FUNCIONARIO'],
+            roles: ['ADMIN', 'GERENTE', 'FUNCIONARIO', 'ATENDENTE'],
         },
         {
             href: '/veiculos',
             icon: <CarIcon size={20} />,
             label: 'Veículos',
-            roles: ['ADMIN', 'GERENTE', 'FUNCIONARIO'],
+            roles: ['ADMIN', 'GERENTE', 'FUNCIONARIO', 'ATENDENTE'],
         },
         {
             href: '/usuarios',
             icon: <UserIcon size={20} />,
             label: 'Usuários',
-            roles: ['ADMIN'],
+            roles: ['ADMIN', 'GERENTE'], // ADMIN e GERENTE podem acessar
         },
     ]
 

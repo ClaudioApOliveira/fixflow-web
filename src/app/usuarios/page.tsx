@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { useUsuarios, useCreateUsuario, useUpdateUsuario, useDeleteUsuario } from '@/lib/hooks'
 import { DashboardLayout } from '@/components/layout'
+import { RoleProtected } from '@/components/role-protected'
 import {
     Button,
     Table,
@@ -20,16 +21,19 @@ import {
     Badge,
     useToast,
 } from '@/components/ui'
-import { usePermission } from '@/providers/auth-provider'
+import { usePermission, useAuth } from '@/providers/auth-provider'
 import { validateUsuarioForm } from '@/lib/validations'
 import { PlusIcon, PencilIcon, TrashIcon, UserIcon, ShieldIcon } from '@/components/icons'
 import { formatDate } from '@/lib/utils'
 import type { Usuario, UsuarioRequest } from '@/types'
 
 const ROLES_OPTIONS = [
-    { value: 'ADMIN', label: 'Administrador' },
-    { value: 'MECANICO', label: 'Mecânico' },
-    { value: 'ATENDENTE', label: 'Atendente' },
+    { value: 'ADMIN', label: 'Administrador', adminOnly: true },
+    { value: 'GERENTE', label: 'Gerente', adminOnly: true },
+    { value: 'FINANCEIRO', label: 'Financeiro', adminOnly: false },
+    { value: 'FUNCIONARIO', label: 'Funcionário', adminOnly: false },
+    { value: 'MECANICO', label: 'Mecânico', adminOnly: false },
+    { value: 'ATENDENTE', label: 'Atendente', adminOnly: false },
 ]
 
 export default function UsuariosPage() {
@@ -38,6 +42,8 @@ export default function UsuariosPage() {
     const updateUsuario = useUpdateUsuario()
     const deleteUsuario = useDeleteUsuario()
     const { canCreateUsuario, canEditUsuario, canDeleteUsuario } = usePermission()
+    const { user } = useAuth()
+    const isAdmin = user?.roles.includes('ADMIN')
     const { addToast } = useToast()
 
     const [searchTerm, setSearchTerm] = useState('')
@@ -164,17 +170,18 @@ export default function UsuariosPage() {
     }
 
     return (
-        <DashboardLayout
-            title="Usuários"
-            subtitle={`${usuarios?.length || 0} usuários cadastrados`}
-            actions={
-                canCreateUsuario && (
-                    <Button onClick={() => handleOpenModal()}>
-                        <PlusIcon size={16} /> Novo Usuário
-                    </Button>
-                )
-            }
-        >
+        <RoleProtected allowedRoles={['ADMIN', 'GERENTE']}>
+            <DashboardLayout
+                title="Usuários"
+                subtitle={`${usuarios?.length || 0} usuários cadastrados`}
+                actions={
+                    canCreateUsuario && (
+                        <Button onClick={() => handleOpenModal()}>
+                            <PlusIcon size={16} /> Novo Usuário
+                        </Button>
+                    )
+                }
+            >
             {/* Search */}
             <div className="mb-6 max-w-md">
                 <SearchInput
@@ -320,7 +327,9 @@ export default function UsuariosPage() {
                             </span>
                         </label>
                         <div className="flex flex-wrap gap-2">
-                            {ROLES_OPTIONS.map((role) => (
+                            {ROLES_OPTIONS
+                                .filter(role => isAdmin || !role.adminOnly)
+                                .map((role) => (
                                 <button
                                     key={role.value}
                                     type="button"
@@ -394,5 +403,6 @@ export default function UsuariosPage() {
                 isLoading={deleteUsuario.isPending}
             />
         </DashboardLayout>
+        </RoleProtected>
     )
 }

@@ -32,6 +32,17 @@ export function useOrdens() {
   })
 }
 
+export function useOrdemResponsavel(id: number) {
+  return useQuery({
+    queryKey: ['ordens', id, 'responsavel'],
+    queryFn: async () => {
+      const response = await api.get<ApiResponse<Usuario>>(`/ordens-servico/${id}/responsavel`)
+      return response.data
+    },
+    enabled: !!id,
+  })
+}
+
 export function useOrdem(id: number) {
   return useQuery({
     queryKey: ['ordens', id],

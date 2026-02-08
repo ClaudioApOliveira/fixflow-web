@@ -28,7 +28,7 @@ import {
     useOrdem,
     useCliente,
     useVeiculo,
-    useUsuario,
+    useOrdemResponsavel,
     useServicosOS,
     useCreateServicoOS,
     useUpdateServicoOS,
@@ -82,7 +82,7 @@ export default function OrdemDetalhePage({ params }: { params: Promise<{ id: str
     const { data: ordem, isLoading: isLoadingOrdem } = useOrdem(ordemId)
     const { data: cliente } = useCliente(ordem?.clienteId || 0)
     const { data: veiculo } = useVeiculo(ordem?.veiculoId || 0)
-    const { data: responsavel } = useUsuario(ordem?.responsavelId || 0)
+    const { data: responsavel } = useOrdemResponsavel(ordemId)
     const { data: servicos, isLoading: isLoadingServicos } = useServicosOS(ordemId)
 
     const createServico = useCreateServicoOS()

@@ -6,7 +6,7 @@ import { api } from '@/lib/api'
 import { getAccessToken, clearTokens } from '@/lib/auth'
 
 // Tipos de roles do sistema
-export type Role = 'ADMIN' | 'GERENTE' | 'FINANCEIRO' | 'FUNCIONARIO' | 'MECANICO'
+export type Role = 'ADMIN' | 'GERENTE' | 'FINANCEIRO' | 'FUNCIONARIO' | 'MECANICO' | 'ATENDENTE'
 
 interface JWTPayload {
     sub: string
@@ -71,7 +71,24 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             return []
         } catch (error) {
             console.error('Failed to fetch user data:', error)
-            // Se falhar ao buscar dados, remove os tokens
+            
+            // Se falhar, tentar usar dados do token JWT
+            const token = getAccessToken()
+            if (token && token.includes('.')) {
+                try {
+                    const decoded = jwtDecode<JWTPayload & { groups?: string[], upn?: string }>(token)
+                    setUser({
+                        id: decoded.sub,
+                        email: decoded.upn || 'user@fixflow.com',
+                        nome: decoded.upn?.split('@')[0] || 'Usuário',
+                        roles: (decoded.groups || []) as Role[],
+                    })
+                    return (decoded.groups || []) as Role[]
+                } catch (tokenError) {
+                    console.error('Failed to decode token:', tokenError)
+                }
+            }
+            
             clearTokens()
             setUser(null)
             return []
@@ -182,23 +199,29 @@ export function usePermission() {
     const { hasRole } = useAuth()
 
     return {
+        // Dashboard
+        canViewDashboard: hasRole(['ADMIN', 'GERENTE', 'FINANCEIRO', 'FUNCIONARIO', 'MECANICO', 'ATENDENTE']),
+
         // Ordens de Serviço
-        canViewOrdens: hasRole(['ADMIN', 'GERENTE', 'FUNCIONARIO', 'MECANICO']),
-        canCreateOrdem: hasRole(['ADMIN', 'GERENTE', 'FUNCIONARIO']),
-        canEditOrdem: hasRole(['ADMIN', 'GERENTE', 'FUNCIONARIO', 'MECANICO']),
+        canViewOrdens: hasRole(['ADMIN', 'GERENTE', 'FINANCEIRO', 'FUNCIONARIO', 'MECANICO', 'ATENDENTE']),
+        canCreateOrdem: hasRole(['ADMIN', 'GERENTE', 'ATENDENTE']),
+        canEditOrdem: hasRole(['ADMIN', 'GERENTE', 'FUNCIONARIO', 'ATENDENTE']),
         canDeleteOrdem: hasRole(['ADMIN', 'GERENTE']),
-        canChangeOrdemStatus: hasRole(['ADMIN', 'GERENTE', 'MECANICO']),
+        canUpdateOrdemStatus: hasRole(['ADMIN', 'GERENTE', 'FUNCIONARIO', 'MECANICO', 'ATENDENTE']),
+        canApproveOrcamento: hasRole(['ADMIN', 'GERENTE']),
+        canEditOrdemValues: hasRole(['ADMIN', 'GERENTE', 'FINANCEIRO']),
+        canViewMecanicoOrdens: hasRole(['MECANICO']), // Apenas suas OS
 
         // Clientes
-        canViewClientes: hasRole(['ADMIN', 'GERENTE', 'FUNCIONARIO']),
-        canCreateCliente: hasRole(['ADMIN', 'GERENTE', 'FUNCIONARIO']),
-        canEditCliente: hasRole(['ADMIN', 'GERENTE', 'FUNCIONARIO']),
+        canViewClientes: hasRole(['ADMIN', 'GERENTE', 'FINANCEIRO', 'FUNCIONARIO', 'ATENDENTE']),
+        canCreateCliente: hasRole(['ADMIN', 'GERENTE', 'ATENDENTE']),
+        canEditCliente: hasRole(['ADMIN', 'GERENTE', 'ATENDENTE']),
         canDeleteCliente: hasRole(['ADMIN', 'GERENTE']),
 
         // Veículos
-        canViewVeiculos: hasRole(['ADMIN', 'GERENTE', 'FUNCIONARIO']),
-        canCreateVeiculo: hasRole(['ADMIN', 'GERENTE', 'FUNCIONARIO']),
-        canEditVeiculo: hasRole(['ADMIN', 'GERENTE', 'FUNCIONARIO']),
+        canViewVeiculos: hasRole(['ADMIN', 'GERENTE', 'FUNCIONARIO', 'ATENDENTE']),
+        canCreateVeiculo: hasRole(['ADMIN', 'GERENTE', 'ATENDENTE']),
+        canEditVeiculo: hasRole(['ADMIN', 'GERENTE', 'ATENDENTE']),
         canDeleteVeiculo: hasRole(['ADMIN', 'GERENTE']),
 
         // Usuários
@@ -206,9 +229,23 @@ export function usePermission() {
         canCreateUsuario: hasRole(['ADMIN']),
         canEditUsuario: hasRole(['ADMIN']),
         canDeleteUsuario: hasRole(['ADMIN']),
+        canManageFuncionarios: hasRole(['ADMIN', 'GERENTE']), // Gerente pode gerenciar funcionários
+
+        // Agendamentos
+        canViewAgendamentos: hasRole(['ADMIN', 'GERENTE', 'FUNCIONARIO', 'MECANICO', 'ATENDENTE']),
+        canCreateAgendamento: hasRole(['ADMIN', 'GERENTE', 'ATENDENTE']),
+        canEditAgendamento: hasRole(['ADMIN', 'GERENTE', 'ATENDENTE']),
+        canDeleteAgendamento: hasRole(['ADMIN', 'GERENTE']),
 
         // Financeiro
         canViewFinanceiro: hasRole(['ADMIN', 'GERENTE', 'FINANCEIRO']),
         canEditFinanceiro: hasRole(['ADMIN', 'FINANCEIRO']),
+        canManagePayments: hasRole(['ADMIN', 'FINANCEIRO']),
+        canIssueInvoices: hasRole(['ADMIN', 'FINANCEIRO']),
+        canViewReports: hasRole(['ADMIN', 'GERENTE', 'FINANCEIRO']),
+
+        // Configurações
+        canViewSettings: hasRole(['ADMIN']),
+        canEditSettings: hasRole(['ADMIN']),
     }
 }

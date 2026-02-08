@@ -145,7 +145,11 @@ export default function DashboardPage() {
                     // Proteger KPIs de receita e faturamento
                     if (kpi.label === 'Receita Hoje' || kpi.label === 'Taxa Conclusão') {
                         return (
-                            <RoleProtected key={index} requiredRoles={['ADMIN', 'GERENTE', 'FINANCEIRO']}>
+                            <RoleProtected
+                                key={index}
+                                allowedRoles={['ADMIN', 'GERENTE', 'FINANCEIRO']}
+                                fallback={<Card className="p-6 bg-muted/30" />}
+                            >
                                 <Card>
                                     <div className="p-6">
                                         <div className="flex items-center justify-between mb-4">
@@ -183,7 +187,10 @@ export default function DashboardPage() {
             {/* Gráficos */}
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
                 {/* Gráfico de Receita - Protegido */}
-                <RoleProtected requiredRoles={['ADMIN', 'GERENTE', 'FINANCEIRO']}>
+                <RoleProtected
+                    allowedRoles={['ADMIN', 'GERENTE', 'FINANCEIRO']}
+                    fallback={<Card className="lg:col-span-2 p-6 bg-muted/30" />}
+                >
                     <Card className="lg:col-span-2">
                         <div className="p-6">
                             <div style={{ height: '300px' }}>

@@ -1,46 +1,45 @@
 'use client'
 
 import { ReactNode } from 'react'
-import { useAuth } from '@/providers/auth-provider'
-import { Card } from '@/components/ui'
-import type { Role } from '@/providers/auth-provider'
+import { useAuth, Role } from '@/providers/auth-provider'
+import { ShieldIcon } from '@/components/icons'
 
 interface RoleProtectedProps {
-    children: ReactNode
-    requiredRoles: Role[]
-    fallback?: ReactNode
+  children: ReactNode
+  allowedRoles: Role[]
+  fallback?: ReactNode
 }
 
-export function RoleProtected({ children, requiredRoles, fallback }: RoleProtectedProps) {
-    const { user, hasAnyRole } = useAuth()
+export function RoleProtected({ children, allowedRoles, fallback }: RoleProtectedProps) {
+  const { user, hasRole } = useAuth()
 
-    // Se o usuário não está autenticado
-    if (!user) {
-        return fallback || (
-            <Card>
-                <div className="p-6 text-center">
-                    <p className="text-sm text-muted-foreground">Você precisa estar autenticado para acessar este conteúdo</p>
-                </div>
-            </Card>
-        )
+  if (!user || !hasRole(allowedRoles)) {
+    if (fallback) {
+      return <>{fallback}</>
     }
 
-    // Se o usuário não tem a role necessária
-    if (!hasAnyRole(requiredRoles)) {
-        return (
-            fallback || (
-                <Card>
-                    <div className="p-6 text-center space-y-2">
-                        <p className="text-sm font-medium text-foreground">Acesso Restrito</p>
-                        <p className="text-xs text-muted-foreground">
-                            Você não tem permissão para visualizar este conteúdo. Apenas usuários com perfil {requiredRoles.join(' ou ')} podem acessar.
-                        </p>
-                    </div>
-                </Card>
-            )
-        )
-    }
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-background">
+        <div className="max-w-md w-full text-center">
+          <div className="w-20 h-20 rounded-3xl bg-destructive/20 text-destructive flex items-center justify-center mx-auto mb-6">
+            <ShieldIcon size={40} />
+          </div>
+          <h1 className="text-2xl font-bold mb-2">Acesso Negado</h1>
+          <p className="text-muted-foreground mb-6">
+            Você não tem permissão para acessar esta página.
+          </p>
+          <div className="p-4 bg-secondary/50 rounded-xl">
+            <p className="text-sm text-muted-foreground mb-2">
+              <strong>Seu perfil:</strong> {user?.roles.join(', ') || 'Não definido'}
+            </p>
+            <p className="text-sm text-muted-foreground">
+              <strong>Perfis necessários:</strong> {allowedRoles.join(', ')}
+            </p>
+          </div>
+        </div>
+      </div>
+    )
+  }
 
-    // Se tem acesso, renderiza o conteúdo
-    return <>{children}</>
+  return <>{children}</>
 }
