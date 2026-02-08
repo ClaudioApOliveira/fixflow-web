@@ -444,8 +444,8 @@ export default function AgendamentosPage() {
                 onConfirm={handleCancelar}
                 title="Cancelar Agendamento"
                 message="Tem certeza que deseja cancelar este agendamento? Esta ação não pode ser desfeita."
-                confirmText="Sim, cancelar"
-                cancelText="Não, manter"
+                confirmLabel="Sim, cancelar"
+                cancelLabel="Não, manter"
             />
         </DashboardLayout>
     )
