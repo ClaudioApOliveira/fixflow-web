@@ -148,7 +148,7 @@ export default function DashboardPage() {
                             <RoleProtected
                                 key={index}
                                 allowedRoles={['ADMIN', 'GERENTE', 'FINANCEIRO']}
-                                fallback={<Card className="p-6 bg-muted/30" />}
+                                fallback={<Card className="p-6 bg-muted/30"><div /></Card>}
                             >
                                 <Card>
                                     <div className="p-6">
@@ -189,7 +189,7 @@ export default function DashboardPage() {
                 {/* Gráfico de Receita - Protegido */}
                 <RoleProtected
                     allowedRoles={['ADMIN', 'GERENTE', 'FINANCEIRO']}
-                    fallback={<Card className="lg:col-span-2 p-6 bg-muted/30" />}
+                    fallback={<Card className="lg:col-span-2 p-6 bg-muted/30"><div /></Card>}
                 >
                     <Card className="lg:col-span-2">
                         <div className="p-6">

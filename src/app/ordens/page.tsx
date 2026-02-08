@@ -57,7 +57,7 @@ export default function OrdensPage() {
   const createOrdem = useCreateOrdem()
   const updateOrdem = useUpdateOrdem()
   const deleteOrdem = useDeleteOrdem()
-  const { canCreateOrdem, canEditOrdem, canDeleteOrdem, canChangeOrdemStatus } = usePermission()
+  const { canCreateOrdem, canEditOrdem, canDeleteOrdem, canUpdateOrdemStatus } = usePermission()
   const { addToast } = useToast()
 
   const [searchTerm, setSearchTerm] = useState('')
@@ -351,7 +351,7 @@ export default function OrdensPage() {
               value={formData.status}
               onChange={(e) => setFormData({ ...formData, status: e.target.value as StatusOrdem })}
               options={STATUS_OPTIONS}
-              disabled={!!(selectedOrdem && !canChangeOrdemStatus)}
+              disabled={!!(selectedOrdem && !canUpdateOrdemStatus)}
               required
             />
           </div>
