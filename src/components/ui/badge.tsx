@@ -1,6 +1,6 @@
 import { ReactNode } from 'react'
 
-type BadgeVariant = 'default' | 'success' | 'warning' | 'danger' | 'info'
+type BadgeVariant = 'default' | 'secondary' | 'success' | 'warning' | 'danger' | 'info'
 
 interface BadgeProps {
     children: ReactNode
@@ -9,7 +9,8 @@ interface BadgeProps {
 }
 
 const variantStyles: Record<BadgeVariant, string> = {
-    default: 'bg-secondary text-secondary-foreground',
+    default: 'bg-primary text-primary-foreground',
+    secondary: 'bg-secondary text-secondary-foreground',
     success: 'bg-success/10 text-success border-success/20',
     warning: 'bg-warning/10 text-warning border-warning/20',
     danger: 'bg-danger/10 text-danger border-danger/20',
