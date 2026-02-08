@@ -62,9 +62,11 @@ export function useLogin() {
   return useMutation({
     mutationFn: async (data: LoginRequest) => {
       const response = await api.post<ApiResponse<AuthResponse>>('/auth/login', data)
+      console.log('Login response:', response)
       if (response.success && response.data?.accessToken) {
         setTokens(response.data.accessToken, response.data.refreshToken)
       } else {
+        console.error('Invalid response format:', response)
         throw new Error('Token not found in response')
       }
       return response
