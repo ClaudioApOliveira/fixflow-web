@@ -16,13 +16,13 @@ export function RoleProtected({ children, requiredRoles, fallback }: RoleProtect
 
     // Se o usuário não está autenticado
     if (!user) {
-        return (
+        return fallback || (
             <Card>
                 <div className="p-6 text-center">
                     <p className="text-sm text-muted-foreground">Você precisa estar autenticado para acessar este conteúdo</p>
                 </div>
             </Card>
-        ) || fallback || null
+        )
     }
 
     // Se o usuário não tem a role necessária
