@@ -5,8 +5,8 @@
   "scripts": {
     "dev": "NEXT_TURBOPACK=0 bun --bun next dev",
     "dev:turbo": "bun --bun next dev",
-    "build": "bun --bun next build",
-    "start": "bun --bun next start",
+    "build": "next build",
+    "start": "next start",
     "lint": "bun eslint"
   },
   "dependencies": {
