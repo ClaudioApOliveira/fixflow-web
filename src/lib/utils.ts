@@ -89,6 +89,17 @@ export function formatPlaca(placa: string): string {
 /**
  * Formata um valor monetário em Real brasileiro
  */
+export function parseDate(date: string | number[] | Date): Date {
+  if (date instanceof Date) return date
+  if (typeof date === 'string') return new Date(date)
+  if (Array.isArray(date)) {
+    // LocalDateTime do Java vem como [year, month, day, hour, minute, second, nano]
+    const [year, month, day, hour = 0, minute = 0, second = 0] = date
+    return new Date(year, month - 1, day, hour, minute, second)
+  }
+  return new Date()
+}
+
 export function formatCurrency(value: number): string {
   return new Intl.NumberFormat('pt-BR', {
     style: 'currency',

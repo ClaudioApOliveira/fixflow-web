@@ -8,7 +8,7 @@ import { RevenueChart } from '@/components/charts/revenue-chart'
 import { StatusChart } from '@/components/charts/status-chart'
 import { ServicesChart } from '@/components/charts/services-chart'
 import { useOrdens, useServicosOS } from '@/lib/hooks'
-import { formatCurrency } from '@/lib/utils'
+import { formatCurrency, parseDate } from '@/lib/utils'
 
 interface KPI {
     label: string
@@ -29,7 +29,7 @@ export default function DashboardPage() {
         const anoAtual = hoje.getFullYear()
 
         const ordensHoje = ordens.filter(o => {
-            const criadoEm = new Date(o.criadoEm)
+            const criadoEm = parseDate(o.criadoEm)
             return criadoEm.getDate() === diaAtual &&
                 criadoEm.getMonth() === mesAtual &&
                 criadoEm.getFullYear() === anoAtual &&
@@ -100,7 +100,7 @@ export default function DashboardPage() {
             const mes = String(data.getMonth() + 1).padStart(2, '0')
 
             const ordensDodia = ordens.filter(o => {
-                const criadoEm = new Date(o.criadoEm)
+                const criadoEm = parseDate(o.criadoEm)
                 return criadoEm.getDate() === data.getDate() &&
                     criadoEm.getMonth() === data.getMonth() &&
                     criadoEm.getFullYear() === data.getFullYear() &&
