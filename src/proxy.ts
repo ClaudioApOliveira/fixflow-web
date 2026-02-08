@@ -1,10 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server'
 
 /**
- * Middleware mínimo apenas para passar requisições adiante
+ * Proxy mínimo apenas para passar requisições adiante
  * A lógica de autenticação e redirecionamento é feita no cliente via AuthRedirector
  */
-export function middleware(request: NextRequest) {
+export function proxy(request: NextRequest) {
   return NextResponse.next()
 }
 
