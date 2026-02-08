@@ -57,6 +57,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const fetchUserData = useCallback(async () => {
         try {
             const response = await api.get<ApiResponse<UsuarioResponse>>('/usuarios/me')
+            console.log('User data response:', response)
             if (response.success && response.data) {
                 const userData = response.data
                 setUser({
@@ -68,7 +69,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
                 return userData.roles as Role[]
             }
             return []
-        } catch {
+        } catch (error) {
+            console.error('Failed to fetch user data:', error)
             // Se falhar ao buscar dados, remove os tokens
             clearTokens()
             setUser(null)

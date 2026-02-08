@@ -40,6 +40,9 @@ export default function LoginPage() {
     e.preventDefault()
     try {
       await login.mutateAsync({ email, senha })
+      addToast('success', 'Login realizado com sucesso!')
+      // Aguardar um pouco para garantir que o token foi salvo
+      await new Promise(resolve => setTimeout(resolve, 500))
       // Usar window.location para forçar um reload completo
       // garantindo que o AuthProvider recarregue o token
       window.location.href = '/ordens'
