@@ -330,8 +330,8 @@ export default function AgendamentosPage() {
                   clienteId: selectedAgendamento.clienteId,
                   veiculoId: selectedAgendamento.veiculoId,
                   mecanicoId: selectedAgendamento.mecanicoId,
-                  dataHoraInicio: new Date(selectedAgendamento.dataHoraInicio),
-                  dataHoraFim: new Date(selectedAgendamento.dataHoraFim),
+                  dataHoraInicio: new Date(selectedAgendamento.dataHoraInicio).toISOString(),
+                  dataHoraFim: new Date(selectedAgendamento.dataHoraFim).toISOString(),
                   servicosSolicitados: selectedAgendamento.servicosSolicitados,
                   observacoes: selectedAgendamento.observacoes,
                 }
