@@ -30,7 +30,7 @@ export default function MinhasManutencoes() {
     queryKey: ['minhas-ordens'],
     queryFn: async () => {
       const res = await api.get('/ordens-servico');
-      return res.data.data as OrdemServico[];
+      return (res as any).data.data as OrdemServico[];
     },
   });
 
@@ -39,7 +39,7 @@ export default function MinhasManutencoes() {
     queryFn: async () => {
       if (!selectedOS) return [];
       const res = await api.get(`/servicos-os/ordem-servico/${selectedOS}`);
-      return res.data.data as Servico[];
+      return (res as any).data.data as Servico[];
     },
     enabled: !!selectedOS,
   });
