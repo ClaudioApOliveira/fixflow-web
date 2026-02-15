@@ -35,17 +35,17 @@ export function formatDateInSaoPaulo(date: Date, dateFormat: string = 'dd/MM/yyy
  */
 export function formatDocument(doc: string): string {
   const cleaned = doc.replace(/\D/g, '')
-  
+
   if (cleaned.length === 11) {
     // CPF: 000.000.000-00
     return cleaned.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4')
   }
-  
+
   if (cleaned.length === 14) {
     // CNPJ: 00.000.000/0000-00
     return cleaned.replace(/(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/, '$1.$2.$3/$4-$5')
   }
-  
+
   return doc
 }
 
@@ -54,17 +54,17 @@ export function formatDocument(doc: string): string {
  */
 export function formatPhone(phone: string): string {
   const cleaned = phone.replace(/\D/g, '')
-  
+
   if (cleaned.length === 11) {
     // Celular: (00) 00000-0000
     return cleaned.replace(/(\d{2})(\d{5})(\d{4})/, '($1) $2-$3')
   }
-  
+
   if (cleaned.length === 10) {
     // Fixo: (00) 0000-0000
     return cleaned.replace(/(\d{2})(\d{4})(\d{4})/, '($1) $2-$3')
   }
-  
+
   return phone
 }
 
@@ -73,7 +73,7 @@ export function formatPhone(phone: string): string {
  */
 export function formatPlaca(placa: string): string {
   const cleaned = placa.toUpperCase().replace(/[^A-Z0-9]/g, '')
-  
+
   if (cleaned.length === 7) {
     // Placa Mercosul: ABC1D23
     if (/^[A-Z]{3}[0-9][A-Z][0-9]{2}$/.test(cleaned)) {
@@ -82,7 +82,7 @@ export function formatPlaca(placa: string): string {
     // Placa antiga: ABC-1234
     return `${cleaned.slice(0, 3)}-${cleaned.slice(3)}`
   }
-  
+
   return placa.toUpperCase()
 }
 
@@ -147,7 +147,7 @@ export function formatDateTime(date: string | number[]): string {
  */
 export function getGreeting(): string {
   const hour = new Date().getHours()
-  
+
   if (hour < 12) return 'Bom dia'
   if (hour < 18) return 'Boa tarde'
   return 'Boa noite'

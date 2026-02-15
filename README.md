@@ -28,6 +28,15 @@ Sistema completo para gestão de oficinas mecânicas com controle de ordens de s
 
 ## 🏁 Início Rápido
 
+### Setup Automático (Recomendado)
+```bash
+./setup.sh
+```
+
+Isso irá instalar dependências, configurar Husky e formatar o código.
+
+### Setup Manual
+
 ### 1️⃣ Instalar dependências
 ```bash
 bun install

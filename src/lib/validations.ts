@@ -208,7 +208,10 @@ export function validateCurrency(value: number): ValidationResult {
 }
 
 // Campo obrigatório genérico
-export function validateRequired(value: string | number | undefined | null, fieldName: string): ValidationResult {
+export function validateRequired(
+  value: string | number | undefined | null,
+  fieldName: string
+): ValidationResult {
   if (value === undefined || value === null || value === '' || value === 0) {
     return { isValid: false, error: `${fieldName} é obrigatório` }
   }
@@ -273,7 +276,10 @@ export interface UsuarioFormData {
   roles: string[]
 }
 
-export function validateUsuarioForm(data: UsuarioFormData, isEdit: boolean = false): Record<string, string> {
+export function validateUsuarioForm(
+  data: UsuarioFormData,
+  isEdit: boolean = false
+): Record<string, string> {
   const errors: Record<string, string> = {}
 
   const nomeResult = validateName(data.nome)

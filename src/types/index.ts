@@ -45,7 +45,7 @@ export interface Usuario {
   email: string
   ativo: boolean
   roles: string[]
-  criadoEm: string | number[]
+  criadoEm: string
 }
 
 export interface UsuarioRequest {
@@ -66,7 +66,7 @@ export interface Cliente {
   nomeCompleto: string
   documento: string
   telefone: string
-  criadoEm: string | number[]
+  criadoEm: string
 }
 
 export interface ClienteRequest {
@@ -93,7 +93,7 @@ export interface Veiculo {
   modelo: string
   marca: string
   clienteId: number
-  criadoEm: string | number[]
+  criadoEm: string
 }
 
 export interface VeiculoRequest {
@@ -107,7 +107,14 @@ export interface VeiculoRequest {
 // Ordem de Servico Types
 // ============================================
 
-export type StatusOrdem = 'ORCAMENTO' | 'ORCAMENTO_APROVADO' | 'ORCAMENTO_RECUSADO' | 'PENDENTE' | 'EM_ANDAMENTO' | 'CONCLUIDO' | 'CANCELADO'
+export type StatusOrdem =
+  | 'ORCAMENTO'
+  | 'ORCAMENTO_APROVADO'
+  | 'ORCAMENTO_RECUSADO'
+  | 'PENDENTE'
+  | 'EM_ANDAMENTO'
+  | 'CONCLUIDO'
+  | 'CANCELADO'
 
 export interface OrdemServico {
   id: number
@@ -117,7 +124,7 @@ export interface OrdemServico {
   veiculoId: number
   clienteId: number
   responsavelId: number
-  criadoEm: string | number[]
+  criadoEm: string
   nomeCliente?: string
   modeloVeiculo?: string
   dataAprovacao?: string
@@ -144,8 +151,8 @@ export interface ServicoOS {
   valor: number
   kmVeiculo?: number
   observacoes?: string
-  criadoEm: string | number[]
-  alteradoEm?: string | number[]
+  criadoEm: string
+  alteradoEm?: string
   criadoPor?: number
   alteradoPor?: number
 }
@@ -162,7 +169,13 @@ export interface ServicoOSRequest {
 // Agendamento Types
 // ============================================
 
-export type StatusAgendamento = 'AGENDADO' | 'CONFIRMADO' | 'EM_ATENDIMENTO' | 'CONCLUIDO' | 'CANCELADO' | 'REAGENDADO'
+export type StatusAgendamento =
+  | 'AGENDADO'
+  | 'CONFIRMADO'
+  | 'EM_ATENDIMENTO'
+  | 'CONCLUIDO'
+  | 'CANCELADO'
+  | 'REAGENDADO'
 
 export interface Agendamento {
   id: number
@@ -172,21 +185,21 @@ export interface Agendamento {
   modeloVeiculo?: string
   mecanicoId: number
   nomeMecanico?: string
-  dataHoraInicio: string | Date
-  dataHoraFim: string | Date
+  dataHoraInicio: string
+  dataHoraFim: string
   status: StatusAgendamento
   servicosSolicitados: string[]
   observacoes?: string
   ordemServicoId?: number
-  criadoEm: string | number[]
+  criadoEm: string
 }
 
 export interface AgendamentoRequest {
   clienteId: number
   veiculoId: number
   mecanicoId: number
-  dataHoraInicio: string | Date
-  dataHoraFim: string | Date
+  dataHoraInicio: string
+  dataHoraFim: string
   servicosSolicitados: string[]
   observacoes?: string
 }
@@ -195,8 +208,7 @@ export interface DisponibilidadeMecanico {
   mecanicoId: number
   nomeMecanico: string
   horariosDisponiveis: Array<{
-    inicio: string | Date
-    fim: string | Date
+    inicio: string
+    fim: string
   }>
 }
-

@@ -67,18 +67,22 @@ export default function Home() {
       <main className="relative z-10 flex flex-col items-center justify-center min-h-[calc(100vh-100px)] px-8">
         <div className="text-center space-y-8 max-w-4xl">
           {/* Badge */}
-          <div className={`inline-flex items-center gap-2 px-4 py-2 rounded-full border text-sm font-medium ${
-            isOnline 
-              ? 'bg-green-500/10 border-green-500/20 text-green-600' 
-              : 'bg-red-500/10 border-red-500/20 text-red-600'
-          }`}>
+          <div
+            className={`inline-flex items-center gap-2 px-4 py-2 rounded-full border text-sm font-medium ${
+              isOnline
+                ? 'bg-green-500/10 border-green-500/20 text-green-600'
+                : 'bg-red-500/10 border-red-500/20 text-red-600'
+            }`}
+          >
             <span className="relative flex h-2 w-2">
               {isOnline && (
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-500 opacity-75"></span>
               )}
-              <span className={`relative inline-flex rounded-full h-2 w-2 ${
-                isOnline ? 'bg-green-500' : 'bg-red-500'
-              }`}></span>
+              <span
+                className={`relative inline-flex rounded-full h-2 w-2 ${
+                  isOnline ? 'bg-green-500' : 'bg-red-500'
+                }`}
+              ></span>
             </span>
             {isOnline ? 'Sistema em funcionamento' : 'Sistema offline'}
           </div>
@@ -92,8 +96,8 @@ export default function Home() {
 
           {/* Subtitle */}
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-            Controle ordens de serviço, clientes e veículos em um único lugar.
-            Interface moderna e intuitiva para sua oficina mecânica.
+            Controle ordens de serviço, clientes e veículos em um único lugar. Interface moderna e
+            intuitiva para sua oficina mecânica.
           </p>
 
           {/* CTAs */}
@@ -103,8 +107,18 @@ export default function Home() {
               className="group inline-flex items-center justify-center gap-2 px-8 py-4 rounded-2xl bg-linear-to-r from-primary to-accent text-white font-semibold text-lg hover:shadow-2xl hover:shadow-primary/30 transition-all hover:-translate-y-1 active:translate-y-0 shine"
             >
               Começar agora
-              <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+              <svg
+                className="w-5 h-5 group-hover:translate-x-1 transition-transform"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M13 7l5 5m0 0l-5 5m5-5H6"
+                />
               </svg>
             </Link>
             <Link
@@ -112,7 +126,12 @@ export default function Home() {
               className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-2xl bg-card border border-border text-foreground font-semibold text-lg hover:bg-secondary transition-all hover:border-primary/50"
             >
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" />
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"
+                />
               </svg>
               Fazer login
             </Link>
@@ -122,9 +141,21 @@ export default function Home() {
         {/* Features preview */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-20 max-w-5xl w-full">
           {[
-            { icon: <ClipboardListIcon size={24} />, title: 'Ordens de Serviço', desc: 'Crie e gerencie OS de forma rápida e organizada' },
-            { icon: <CarIcon size={24} />, title: 'Gestão de Veículos', desc: 'Histórico completo de cada veículo atendido' },
-            { icon: <UsersIcon size={24} />, title: 'Clientes', desc: 'Base de clientes centralizada e acessível' },
+            {
+              icon: <ClipboardListIcon size={24} />,
+              title: 'Ordens de Serviço',
+              desc: 'Crie e gerencie OS de forma rápida e organizada',
+            },
+            {
+              icon: <CarIcon size={24} />,
+              title: 'Gestão de Veículos',
+              desc: 'Histórico completo de cada veículo atendido',
+            },
+            {
+              icon: <UsersIcon size={24} />,
+              title: 'Clientes',
+              desc: 'Base de clientes centralizada e acessível',
+            },
           ].map((feature, i) => (
             <div
               key={i}

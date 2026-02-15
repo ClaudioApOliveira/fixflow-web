@@ -202,10 +202,30 @@ export default function OrdensPage() {
     >
       {/* Stats Cards */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-        <StatCard label="Total" value={stats.total} icon={<ClipboardListIcon size={24} />} color="primary" />
-        <StatCard label="Pendentes" value={stats.pendentes} icon={<ClockIcon size={24} />} color="warning" />
-        <StatCard label="Em andamento" value={stats.emAndamento} icon={<LoaderIcon size={24} />} color="info" />
-        <StatCard label="Concluídas" value={stats.concluidas} icon={<CircleCheckIcon size={24} />} color="success" />
+        <StatCard
+          label="Total"
+          value={stats.total}
+          icon={<ClipboardListIcon size={24} />}
+          color="primary"
+        />
+        <StatCard
+          label="Pendentes"
+          value={stats.pendentes}
+          icon={<ClockIcon size={24} />}
+          color="warning"
+        />
+        <StatCard
+          label="Em andamento"
+          value={stats.emAndamento}
+          icon={<LoaderIcon size={24} />}
+          color="info"
+        />
+        <StatCard
+          label="Concluídas"
+          value={stats.concluidas}
+          icon={<CircleCheckIcon size={24} />}
+          color="success"
+        />
       </div>
 
       {/* Search and Filters */}
@@ -223,10 +243,11 @@ export default function OrdensPage() {
             <button
               key={status}
               onClick={() => setStatusFilter(status)}
-              className={`px-4 py-2 rounded-xl text-sm font-medium transition-all ${statusFilter === status
-                ? 'bg-primary text-primary-foreground shadow-lg shadow-primary/25'
-                : 'bg-secondary text-secondary-foreground hover:bg-secondary/80'
-                }`}
+              className={`px-4 py-2 rounded-xl text-sm font-medium transition-all ${
+                statusFilter === status
+                  ? 'bg-primary text-primary-foreground shadow-lg shadow-primary/25'
+                  : 'bg-secondary text-secondary-foreground hover:bg-secondary/80'
+              }`}
             >
               {status === 'TODOS' ? 'Todos' : status.replace('_', ' ')}
             </button>
@@ -238,11 +259,18 @@ export default function OrdensPage() {
       {filteredOrdens && filteredOrdens.length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
           {filteredOrdens.map((ordem) => (
-            <div key={ordem.id} className="group relative cursor-pointer" onClick={() => router.push(`/ordens/${ordem.id}`)}>
+            <div
+              key={ordem.id}
+              className="group relative cursor-pointer"
+              onClick={() => router.push(`/ordens/${ordem.id}`)}
+            >
               <OrdemCard ordem={ordem} />
               <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity flex gap-1">
                 <button
-                  onClick={(e) => { e.stopPropagation(); router.push(`/ordens/${ordem.id}`) }}
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    router.push(`/ordens/${ordem.id}`)
+                  }}
                   className="p-2 bg-card rounded-lg shadow-lg hover:bg-primary/10 transition-colors"
                   title="Ver detalhes"
                 >
@@ -250,7 +278,10 @@ export default function OrdensPage() {
                 </button>
                 {canEditOrdem && (
                   <button
-                    onClick={(e) => { e.stopPropagation(); handleOpenModal(ordem) }}
+                    onClick={(e) => {
+                      e.stopPropagation()
+                      handleOpenModal(ordem)
+                    }}
                     className="p-2 bg-card rounded-lg shadow-lg hover:bg-secondary transition-colors"
                     title="Editar"
                   >
@@ -259,7 +290,10 @@ export default function OrdensPage() {
                 )}
                 {canDeleteOrdem && (
                   <button
-                    onClick={(e) => { e.stopPropagation(); openDeleteDialog(ordem) }}
+                    onClick={(e) => {
+                      e.stopPropagation()
+                      openDeleteDialog(ordem)
+                    }}
                     className="p-2 bg-card rounded-lg shadow-lg hover:bg-danger/10 transition-colors"
                     title="Excluir"
                   >

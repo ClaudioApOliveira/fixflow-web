@@ -1,9 +1,9 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { api } from './api'
-import type { 
-  OrdemServico, 
+import type {
+  OrdemServico,
   OrdemServicoRequest,
-  Cliente, 
+  Cliente,
   ClienteRequest,
   Veiculo,
   VeiculoRequest,
@@ -14,21 +14,22 @@ import type {
   Agendamento,
   AgendamentoRequest,
   DisponibilidadeMecanico,
-  ApiResponse 
+  ApiResponse,
 } from '@/types'
 
 // ============================================
 // Ordens de Serviço Hooks
 // ============================================
 
-export function useOrdens() {
+export function useOrdens(page?: number, size?: number) {
   return useQuery({
-    queryKey: ['ordens'],
+    queryKey: ['ordens', page, size],
     queryFn: async () => {
-      const response = await api.get<ApiResponse<OrdemServico[]>>('/ordens-servico')
+      const params = page !== undefined && size !== undefined ? `?page=${page}&size=${size}` : ''
+      const response = await api.get<ApiResponse<OrdemServico[]>>(`/ordens-servico${params}`)
       return response.data || []
     },
-    refetchInterval: 5000,
+    staleTime: 30000, // Cache por 30s
   })
 }
 
@@ -58,7 +59,9 @@ export function useOrdensByStatus(status: string) {
   return useQuery({
     queryKey: ['ordens', 'status', status],
     queryFn: async () => {
-      const response = await api.get<ApiResponse<OrdemServico[]>>(`/ordens-servico/status/${status}`)
+      const response = await api.get<ApiResponse<OrdemServico[]>>(
+        `/ordens-servico/status/${status}`
+      )
       return response.data || []
     },
   })
@@ -68,7 +71,9 @@ export function useOrdensByCliente(clienteId: number) {
   return useQuery({
     queryKey: ['ordens', 'cliente', clienteId],
     queryFn: async () => {
-      const response = await api.get<ApiResponse<OrdemServico[]>>(`/ordens-servico/cliente/${clienteId}`)
+      const response = await api.get<ApiResponse<OrdemServico[]>>(
+        `/ordens-servico/cliente/${clienteId}`
+      )
       return response.data || []
     },
     enabled: !!clienteId,
@@ -79,7 +84,9 @@ export function useOrdemByRastreio(codigoRastreio: string) {
   return useQuery({
     queryKey: ['ordens', 'rastreio', codigoRastreio],
     queryFn: async () => {
-      const response = await api.get<ApiResponse<OrdemServico>>(`/ordens-servico/rastreio/${codigoRastreio}`)
+      const response = await api.get<ApiResponse<OrdemServico>>(
+        `/ordens-servico/rastreio/${codigoRastreio}`
+      )
       return response.data
     },
     enabled: !!codigoRastreio,
@@ -137,13 +144,15 @@ export function useRejectOrcamento() {
 // Clientes Hooks
 // ============================================
 
-export function useClientes() {
+export function useClientes(page?: number, size?: number) {
   return useQuery({
-    queryKey: ['clientes'],
+    queryKey: ['clientes', page, size],
     queryFn: async () => {
-      const response = await api.get<ApiResponse<Cliente[]>>('/clientes')
+      const params = page !== undefined && size !== undefined ? `?page=${page}&size=${size}` : ''
+      const response = await api.get<ApiResponse<Cliente[]>>(`/clientes${params}`)
       return response.data || []
     },
+    staleTime: 30000,
   })
 }
 
@@ -210,13 +219,15 @@ export function useDeleteCliente() {
 // Veículos Hooks
 // ============================================
 
-export function useVeiculos() {
+export function useVeiculos(page?: number, size?: number) {
   return useQuery({
-    queryKey: ['veiculos'],
+    queryKey: ['veiculos', page, size],
     queryFn: async () => {
-      const response = await api.get<ApiResponse<Veiculo[]>>('/veiculos')
+      const params = page !== undefined && size !== undefined ? `?page=${page}&size=${size}` : ''
+      const response = await api.get<ApiResponse<Veiculo[]>>(`/veiculos${params}`)
       return response.data || []
     },
+    staleTime: 30000,
   })
 }
 
@@ -367,7 +378,9 @@ export function useServicosOS(ordemServicoId: number) {
   return useQuery({
     queryKey: ['servicos-os', 'ordem', ordemServicoId],
     queryFn: async () => {
-      const response = await api.get<ApiResponse<ServicoOS[]>>(`/servicos-os/ordem-servico/${ordemServicoId}`)
+      const response = await api.get<ApiResponse<ServicoOS[]>>(
+        `/servicos-os/ordem-servico/${ordemServicoId}`
+      )
       return response.data || []
     },
     enabled: !!ordemServicoId,
@@ -388,10 +401,12 @@ export function useServicoOS(id: number) {
 export function useCreateServicoOS() {
   const queryClient = useQueryClient()
   return useMutation({
-    mutationFn: ({ ordemServicoId, ...data }: ServicoOSRequest & { ordemServicoId: number }) => 
+    mutationFn: ({ ordemServicoId, ...data }: ServicoOSRequest & { ordemServicoId: number }) =>
       api.post(`/servicos-os/ordem-servico/${ordemServicoId}`, data),
     onSuccess: (_, variables) => {
-      queryClient.invalidateQueries({ queryKey: ['servicos-os', 'ordem', variables.ordemServicoId] })
+      queryClient.invalidateQueries({
+        queryKey: ['servicos-os', 'ordem', variables.ordemServicoId],
+      })
       queryClient.invalidateQueries({ queryKey: ['ordens'] })
     },
   })
@@ -400,10 +415,16 @@ export function useCreateServicoOS() {
 export function useUpdateServicoOS() {
   const queryClient = useQueryClient()
   return useMutation({
-    mutationFn: ({ id, ordemServicoId, ...data }: ServicoOSRequest & { id: number; ordemServicoId: number }) =>
+    mutationFn: ({
+      id,
+      ordemServicoId,
+      ...data
+    }: ServicoOSRequest & { id: number; ordemServicoId: number }) =>
       api.put(`/servicos-os/${id}`, data),
     onSuccess: (_, variables) => {
-      queryClient.invalidateQueries({ queryKey: ['servicos-os', 'ordem', variables.ordemServicoId] })
+      queryClient.invalidateQueries({
+        queryKey: ['servicos-os', 'ordem', variables.ordemServicoId],
+      })
       queryClient.invalidateQueries({ queryKey: ['servicos-os', variables.id] })
       queryClient.invalidateQueries({ queryKey: ['ordens'] })
     },
@@ -413,10 +434,12 @@ export function useUpdateServicoOS() {
 export function useDeleteServicoOS() {
   const queryClient = useQueryClient()
   return useMutation({
-    mutationFn: ({ id, ordemServicoId }: { id: number; ordemServicoId: number }) => 
+    mutationFn: ({ id, ordemServicoId }: { id: number; ordemServicoId: number }) =>
       api.delete(`/servicos-os/${id}`),
     onSuccess: (_, variables) => {
-      queryClient.invalidateQueries({ queryKey: ['servicos-os', 'ordem', variables.ordemServicoId] })
+      queryClient.invalidateQueries({
+        queryKey: ['servicos-os', 'ordem', variables.ordemServicoId],
+      })
       queryClient.invalidateQueries({ queryKey: ['ordens'] })
     },
   })
@@ -434,7 +457,7 @@ export function useAgendamentos(date?: Date) {
       const response = await api.get<ApiResponse<Agendamento[]>>(`/agendamentos${params}`)
       return response.data || []
     },
-    refetchInterval: 5000,
+    staleTime: 30000,
   })
 }
 
@@ -445,7 +468,7 @@ export function useAgendamentosByStatus(status: string) {
       const response = await api.get<ApiResponse<Agendamento[]>>(`/agendamentos/status/${status}`)
       return response.data || []
     },
-    refetchInterval: 5000,
+    staleTime: 30000,
   })
 }
 
@@ -508,4 +531,3 @@ export function useConfirmarAgendamento() {
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ['agendamentos'] }),
   })
 }
-

@@ -1,6 +1,7 @@
 import { useQuery } from '@tanstack/react-query'
 
-const BACKEND_HEALTH_URL = process.env.NEXT_PUBLIC_BACKEND_HEALTH_URL || 'http://localhost:30080/actuator/health'
+const BACKEND_HEALTH_URL =
+  process.env.NEXT_PUBLIC_BACKEND_HEALTH_URL || 'http://localhost:30080/actuator/health'
 
 export function useBackendStatus() {
   return useQuery({

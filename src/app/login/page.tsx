@@ -6,7 +6,15 @@ import { useToast } from '@/components/ui'
 import { FormEvent, useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
-import { WrenchIcon, CheckIcon, MailIcon, LockIcon, EyeIcon, EyeOffIcon, LoaderIcon } from '@/components/icons'
+import {
+  WrenchIcon,
+  CheckIcon,
+  MailIcon,
+  LockIcon,
+  EyeIcon,
+  EyeOffIcon,
+  LoaderIcon,
+} from '@/components/icons'
 
 export default function LoginPage() {
   const [email, setEmail] = useState('')
@@ -42,7 +50,7 @@ export default function LoginPage() {
       await login.mutateAsync({ email, senha })
       addToast('success', 'Login realizado com sucesso!')
       // Aguardar um pouco para garantir que o token foi salvo
-      await new Promise(resolve => setTimeout(resolve, 500))
+      await new Promise((resolve) => setTimeout(resolve, 500))
       // Usar window.location para forçar um reload completo
       // garantindo que o AuthProvider recarregue o token
       window.location.href = '/ordens'
@@ -72,8 +80,7 @@ export default function LoginPage() {
 
           <div className="space-y-4">
             <h1 className="text-4xl font-bold leading-tight">
-              Gerencie sua oficina com{' '}
-              <span className="gradient-text">eficiência</span>
+              Gerencie sua oficina com <span className="gradient-text">eficiência</span>
             </h1>
             <p className="text-muted-foreground text-lg">
               Acesse o painel para controlar ordens de serviço, clientes e veículos em tempo real.
@@ -117,9 +124,7 @@ export default function LoginPage() {
 
             <form onSubmit={handleSubmit} className="space-y-5">
               <div className="space-y-2">
-                <label className="block text-sm font-medium text-foreground">
-                  Email
-                </label>
+                <label className="block text-sm font-medium text-foreground">Email</label>
                 <div className="relative">
                   <div className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground">
                     <MailIcon size={20} />
@@ -137,10 +142,11 @@ export default function LoginPage() {
 
               <div className="space-y-2">
                 <div className="flex items-center justify-between">
-                  <label className="block text-sm font-medium text-foreground">
-                    Senha
-                  </label>
-                  <button type="button" className="text-sm text-primary hover:text-primary-hover transition-colors">
+                  <label className="block text-sm font-medium text-foreground">Senha</label>
+                  <button
+                    type="button"
+                    className="text-sm text-primary hover:text-primary-hover transition-colors"
+                  >
                     Esqueceu?
                   </button>
                 </div>

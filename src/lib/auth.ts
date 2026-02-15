@@ -1,5 +1,6 @@
 import { useMutation } from '@tanstack/react-query'
 import { api } from './api'
+import { tokenManager } from './token-manager'
 
 interface LoginRequest {
   email: string
@@ -27,35 +28,21 @@ interface ApiResponse<T> {
 const ACCESS_TOKEN_KEY = 'accessToken'
 const REFRESH_TOKEN_KEY = 'refreshToken'
 
-// Funções auxiliares para gerenciar tokens
+// Funções auxiliares para gerenciar tokens (mantidas para compatibilidade)
 export function getAccessToken(): string | null {
-  if (typeof window === 'undefined') return null
-  return localStorage.getItem(ACCESS_TOKEN_KEY)
+  return tokenManager.getAccessToken()
 }
 
 export function getRefreshToken(): string | null {
-  if (typeof window === 'undefined') return null
-  return localStorage.getItem(REFRESH_TOKEN_KEY)
+  return tokenManager.getRefreshToken()
 }
 
 export function setTokens(accessToken: string, refreshToken: string): void {
-  localStorage.setItem(ACCESS_TOKEN_KEY, accessToken)
-  localStorage.setItem(REFRESH_TOKEN_KEY, refreshToken)
-  // Também salvar em cookies para o middleware
-  if (typeof window !== 'undefined') {
-    document.cookie = `accessToken=${accessToken}; path=/; max-age=86400`
-    document.cookie = `refreshToken=${refreshToken}; path=/; max-age=604800`
-  }
+  tokenManager.setTokens(accessToken, refreshToken)
 }
 
 export function clearTokens(): void {
-  localStorage.removeItem(ACCESS_TOKEN_KEY)
-  localStorage.removeItem(REFRESH_TOKEN_KEY)
-  // Também limpar cookies
-  if (typeof window !== 'undefined') {
-    document.cookie = 'accessToken=; path=/; max-age=0'
-    document.cookie = 'refreshToken=; path=/; max-age=0'
-  }
+  tokenManager.clearTokens()
 }
 
 export function useLogin() {

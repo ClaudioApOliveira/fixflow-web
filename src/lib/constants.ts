@@ -74,7 +74,16 @@ export const STATUS_OPTIONS = [
   { value: 'CANCELADO' as StatusOrdem, label: 'Cancelado' },
 ]
 
-export const STATUS_FILTERS = ['TODOS', 'ORCAMENTO', 'ORCAMENTO_APROVADO', 'ORCAMENTO_RECUSADO', 'PENDENTE', 'EM_ANDAMENTO', 'CONCLUIDO', 'CANCELADO'] as const
+export const STATUS_FILTERS = [
+  'TODOS',
+  'ORCAMENTO',
+  'ORCAMENTO_APROVADO',
+  'ORCAMENTO_RECUSADO',
+  'PENDENTE',
+  'EM_ANDAMENTO',
+  'CONCLUIDO',
+  'CANCELADO',
+] as const
 
 // ============================================
 // Roles Configuration
@@ -133,25 +142,25 @@ export const ENDPOINTS = {
   login: '/auth/login',
   logout: '/auth/logout',
   refresh: '/auth/refresh',
-  
+
   // Clientes
   clientes: '/clientes',
   clienteById: (id: number) => `/clientes/${id}`,
   clienteByDocumento: (documento: string) => `/clientes/documento/${documento}`,
-  
+
   // Veículos
   veiculos: '/veiculos',
   veiculoById: (id: number) => `/veiculos/${id}`,
   veiculosByCliente: (clienteId: number) => `/veiculos/cliente/${clienteId}`,
   veiculoByPlaca: (placa: string) => `/veiculos/placa/${placa}`,
-  
+
   // Ordens de Serviço
   ordens: '/ordens-servico',
   ordemById: (id: number) => `/ordens-servico/${id}`,
   ordensByCliente: (clienteId: number) => `/ordens-servico/cliente/${clienteId}`,
   ordensByStatus: (status: string) => `/ordens-servico/status/${status}`,
   ordemByRastreio: (codigo: string) => `/ordens-servico/rastreio/${codigo}`,
-  
+
   // Usuários
   usuarios: '/usuarios',
   usuarioById: (id: number) => `/usuarios/${id}`,
