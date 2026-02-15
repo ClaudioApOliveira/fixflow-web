@@ -6,7 +6,7 @@ import { api } from '@/lib/api'
 import { getAccessToken, clearTokens } from '@/lib/auth'
 
 // Tipos de roles do sistema
-export type Role = 'ADMIN' | 'GERENTE' | 'FINANCEIRO' | 'FUNCIONARIO' | 'MECANICO' | 'ATENDENTE'
+export type Role = 'ADMIN' | 'GERENTE' | 'FINANCEIRO' | 'FUNCIONARIO' | 'MECANICO' | 'ATENDENTE' | 'CLIENTE'
 
 interface JWTPayload {
   sub: string

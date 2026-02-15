@@ -63,8 +63,8 @@ export function AgendamentoForm({
     clienteId: 0,
     veiculoId: 0,
     mecanicoId: 0,
-    dataHoraInicio: nowInSaoPaulo(),
-    dataHoraFim: nowInSaoPaulo(),
+    dataHoraInicio: nowInSaoPaulo().toISOString(),
+    dataHoraFim: nowInSaoPaulo().toISOString(),
     servicosSolicitados: [],
     observacoes: '',
   })
@@ -80,8 +80,8 @@ export function AgendamentoForm({
     if (initialDate) {
       setFormData((prev) => ({
         ...prev,
-        dataHoraInicio: initialDate.start,
-        dataHoraFim: initialDate.end,
+        dataHoraInicio: initialDate.start.toISOString(),
+        dataHoraFim: initialDate.end.toISOString(),
       }))
       setSelectedDate(initialDate.start)
     }
@@ -229,9 +229,8 @@ export function AgendamentoForm({
                 "yyyy-MM-dd'T'HH:mm"
               )}
               onChange={(e) => {
-                // Converter a hora selecionada de São Paulo para UTC
                 const newDate = fromZonedTime(new Date(e.target.value), 'America/Sao_Paulo')
-                setFormData({ ...formData, dataHoraInicio: newDate })
+                setFormData({ ...formData, dataHoraInicio: newDate.toISOString() })
                 setSelectedDate(newDate)
                 setErrors({ ...errors, dataHoraInicio: '' })
               }}
@@ -252,9 +251,8 @@ export function AgendamentoForm({
               min={format(toSaoPauloTime(new Date(formData.dataHoraInicio)), "yyyy-MM-dd'T'HH:mm")}
               value={format(new Date(formData.dataHoraFim), "yyyy-MM-dd'T'HH:mm")}
               onChange={(e) => {
-                // Converter a hora selecionada de São Paulo para UTC
                 const newDate = fromZonedTime(new Date(e.target.value), 'America/Sao_Paulo')
-                setFormData({ ...formData, dataHoraFim: newDate })
+                setFormData({ ...formData, dataHoraFim: newDate.toISOString() })
                 setErrors({ ...errors, dataHoraFim: '' })
               }}
               required
